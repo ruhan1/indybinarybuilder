@@ -14,20 +14,20 @@
 # limitations under the License.
 #
 
-FROM indy-base
+FROM centos
 
 MAINTAINER John Casey <jdcasey@commonjava.org>
 
-ADD $tarball_url /tmp/indy-launcher.tar.gz
-RUN	tar -zxvf /tmp/indy-launcher.tar.gz -C /opt
+EXPOSE 8080 8081 8000
 
-RUN mkdir -p /indy/storage /indy/data /indy/logs /indy/etc /indy/ssh /opt/indy-git-etc
-RUN chown -R indy:indy /indy/storage /indy/data /indy/logs /indy/etc /indy/ssh /opt/indy /opt/indy-git-etc
-VOLUME /indy/storage /indy/data /indy/logs /indy/etc
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.1.1/dumb-init_1.1.1_amd64 /usr/local/bin/dumb-init
 
-ADD deployments/docker/scripts/start-indy.py /usr/local/bin/start-indy.py
-RUN chmod 755 /usr/local/bin/*
+USER root
 
-USER 1001
+RUN chmod +x /usr/local/bin/*
+RUN	yum -y update
+RUN	yum -y install wget git tar which curl tree java-1.8.0-openjdk-devel
+RUN	yum clean all
+RUN	groupadd -g 1000 indy
+RUN	useradd -u 1000 -g indy --no-create-home -s /bin/false -d /opt/indy indy
 
-ENTRYPOINT ["/usr/local/bin/dumb-init", "/usr/local/bin/start-indy.py"]
