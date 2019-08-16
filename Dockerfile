@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FROM indy-base
+FROM indy-binary-base
 
 MAINTAINER John Casey <jdcasey@commonjava.org>
 
