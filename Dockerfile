@@ -25,7 +25,7 @@ RUN mkdir -p /indy/storage /indy/data /indy/logs /indy/etc /indy/ssh /opt/indy-g
 RUN chown -R indy:indy /indy/storage /indy/data /indy/logs /indy/etc /indy/ssh /opt/indy /opt/indy-git-etc
 VOLUME /indy/storage /indy/data /indy/logs /indy/etc
 
-ADD deployments/docker/scripts/start-indy.py /usr/local/bin/start-indy.py
+ADD start-indy.py /usr/local/bin/start-indy.py
 RUN chmod 755 /usr/local/bin/*
 
 USER 1001
